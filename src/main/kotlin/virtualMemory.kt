@@ -84,6 +84,47 @@ fun lru (comms: MutableList<Int>, memorySize: Int): MutableList<Int> {
     return changeList
 }
 
+fun opt(comms: MutableList<Int>, memorySize: Int): MutableList<Int> {
+    val commands = comms.toMutableList()
+    val changeList = mutableListOf<Int>()
+    val memory = mutableListOf<Pair<Int, Int>>()
+    while (memory.size < memorySize) {
+        if (memory.find { it.first == commands[0] } == null) {
+            memory.add(Pair(commands[0], -1))
+            changeList.add(memory.size)
+            commands.removeAt(0)
+        }
+        else {
+            commands.removeAt(0)
+            changeList.add(-1)
+        }
+    }
+    for (i in 0 until commands.size) {
+        if (memory.find { it.first == commands[i] } != null) {
+            changeList.add(-1)
+        }
+        else {
+            for (j in i until commands.size) {
+                for (k in 0 until memorySize) {
+                    if ((memory[k].first == commands[j]) and (memory[k].second == -1)) {
+                        memory[k] = Pair(memory[k].first, j)
+                    }
+                }
+            }
+            var maximum = 0
+            for (j in 0 until memorySize) {
+                if (memory[maximum].second == -1) break
+                else if ((memory[j].second > memory[maximum].second) or (memory[j].second == -1)) {
+                    maximum = j
+                }
+            }
+            memory[maximum] = Pair(commands[i], -1)
+            changeList.add(maximum + 1)
+        }
+    }
+    return changeList
+}
+
 fun main() {
     val conf = readFileAsLinesUsingUseLines("inpout/conf.txt")[0].split(' ')
     val memorySize = conf[0].toInt()
@@ -104,6 +145,10 @@ fun main() {
     }
     println("___________________________")
     for (i in lru(commands, memorySize)) {
+        println(i)
+    }
+    println("___________________________")
+    for (i in opt(commands, memorySize)) {
         println(i)
     }
 }
