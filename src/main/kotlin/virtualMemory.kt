@@ -126,13 +126,7 @@ fun opt(comms: MutableList<Int>, memorySize: Int): MutableList<Int> {
 }
 
 fun main() {
-    val conf = readFileAsLinesUsingUseLines("inpout/conf.txt")[0].split(' ')
-    val memorySize = conf[0].toInt()
-    val pagesCount = conf[1].toInt()
-    if (memorySize >=  pagesCount) {
-        println("Некорректный формат данных. Ожидается, что количество кадров меньше размера адресного пространства процессора.")
-        exitProcess(0)
-    }
+    val memorySize = readFileAsLinesUsingUseLines("inpout/conf.txt")[0].toInt()
 
     val commandsString = readFileAsLinesUsingUseLines("inpout/commands.txt")
     val commands = mutableListOf<Int>()
@@ -140,15 +134,37 @@ fun main() {
         commands.add(i.toInt())
     }
 
+    val answer = File("inpout/answer.txt")
+    if (answer.exists()) answer.delete()
+    var answerContent = ""
+
+    var countOfAnswersFifo = 0
+    answerContent += "Результат выполнения FIFO: \n"
     for (i in fifo(commands, memorySize)) {
-        println(i)
+        answerContent += i.toString() + "\n"
+        if (i != -1) countOfAnswersFifo++
     }
-    println("___________________________")
+
+    var countOfAnswersLru = 0
+    answerContent += "___________________________ \n"
+    answerContent += "Результат выполнения LRU: \n"
     for (i in lru(commands, memorySize)) {
-        println(i)
+        answerContent += i.toString() + "\n"
+        if (i != -1) countOfAnswersLru++
     }
-    println("___________________________")
+
+    var countOfAnswersOpt = 0
+    answerContent += "___________________________ \n"
+    answerContent += "Результат выполнения OPT: \n"
     for (i in opt(commands, memorySize)) {
-        println(i)
+        answerContent += i.toString() + "\n"
+        if (i != -1) countOfAnswersOpt++
     }
+    answerContent += "___________________________ \n"
+    answerContent += "Количество запросов второго типа: \n" +
+                     "FIFO $countOfAnswersFifo \n" +
+                     "LRU $countOfAnswersLru \n" +
+                     "OPT $countOfAnswersOpt \n"
+    answer.writeText(answerContent)
+
 }
