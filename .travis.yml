@@ -14,7 +14,7 @@ install:
   skip
 
 script:
-  ./gradlew shadowJar
+  ./gradlew kotlinSourcesJar
 
 after_script:
   ./gradlew test
