@@ -1,0 +1,1 @@
+C:\Users\user\IdeaProjects\prog-2020-virt-mem-cutt1efish\build\classes\kotlin\main\GeneratorKt.class;C:\Users\user\IdeaProjects\prog-2020-virt-mem-cutt1efish\build\classes\kotlin\main\VirtualMemoryKt.class
