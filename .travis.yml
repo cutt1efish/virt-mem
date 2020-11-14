@@ -1,0 +1,20 @@
+language:
+  java
+
+jdk:
+  - openjdk15
+
+os:
+  linux
+
+dist:
+  trusty
+
+install:
+  skip
+
+script:
+  ./gradlew shadowJar
+
+after_script:
+  ./gradlew test
