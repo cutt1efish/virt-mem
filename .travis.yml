@@ -4,9 +4,6 @@ language:
 jdk:
   - openjdk15
 
-os:
-  linux
-
 dist:
   trusty
 
