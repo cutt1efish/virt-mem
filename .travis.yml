@@ -11,8 +11,8 @@ install:
   skip
 
 script:
-  chmod +x gradlew
-  ./gradlew kotlinSourcesJar
+  - chmod +x gradlew
+  - ./gradlew kotlinSourcesJar
 
 after_script:
   ./gradlew test
